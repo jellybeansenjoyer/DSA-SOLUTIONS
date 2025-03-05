@@ -24,3 +24,35 @@ int topDown(int n, vector<vector<int>> &points)
     }
     return maxm;
 }
+#include<bits/stdc++.h>
+int solve(int n,vector<vector<int>> &points, int last,vector<vector<int>>& dp){
+    if(n==0){
+        int val = INT_MIN;
+        for(int i=0;i<=2;i++){
+            if(i!=last){
+                val=max(val,points[n][i]);
+            }
+        }
+        return val;
+    }
+
+    if(dp[n][last]!=-1){
+        return dp[n][last];
+    }
+
+    int val = INT_MIN;
+    for(int i=0;i<=2;i++){
+        if(i!=last){
+            val=max(val,points[n][i] + solve(n-1,points,i,dp));
+        }
+    }
+    return dp[n][last] = val;
+}
+
+int ninjaTraining(int n, vector<vector<int>> &points)
+{
+    // Write your code here.
+    vector<vector<int>> dp(n+1,vector<int>(4,-1));
+    return solve(n-1,points,3,dp);
+    
+}
